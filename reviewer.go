@@ -1,3 +1,10 @@
+/*
+ikku is Ikku("一句") detector, Ikku is something like Japanese Haiku("俳句").
+
+Inspired by [r7kamura/ikku].
+
+[r7kamura/ikku]: https://github.com/r7kamura/ikku
+*/
 package ikku
 
 import (
@@ -81,6 +88,7 @@ var defaultReviewerConf reviewerOption = reviewerOption{
 
 type reviewerOptionExactly bool
 
+// Requires exact match.
 func ReviewerOptionExactly(exactly bool) reviewerOptionExactly {
 	return reviewerOptionExactly(exactly)
 }
@@ -90,6 +98,7 @@ func (o reviewerOptionExactly) Apply(c *reviewerOption) {
 
 type reviewerOptionRule []int
 
+// Customize count rule.
 func ReviewerOptionRule(rule []int) reviewerOptionRule {
 	return reviewerOptionRule(rule)
 }
