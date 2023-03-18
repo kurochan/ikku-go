@@ -20,6 +20,7 @@ r, err := ikku.NewReviewer(ipa.Dict())
 if err != nil {
 	panic(err)
 }
+
 // This is Haiku.
 fmt.Println(r.Find("古池や蛙飛び込む水の音"))
 // This contains Haiku.
