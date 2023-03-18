@@ -1,7 +1,8 @@
-name: release
+name: release-pr
 
 on:
-  push:
+  pull_request:
+    types: [opened, synchronize]
     branches:
       - main
     paths:
@@ -12,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v3
         with:
