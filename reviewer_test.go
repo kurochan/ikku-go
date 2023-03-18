@@ -1,6 +1,7 @@
 package ikku_test
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 	"unicode"
@@ -210,6 +211,37 @@ func TestSearch(t *testing.T) {
 	}
 }
 
+func TestString(t *testing.T) {
+	tests := []struct {
+		name string
+		text string
+		want string
+	}{
+		{
+			name: "ikku/古池や蛙飛び込む水の音",
+			text: "古池や蛙飛び込む水の音",
+			want: "古池や蛙飛び込む水の音",
+		},
+		{
+			name: "ikku/ああ古池や蛙飛び込む水の音がします",
+			text: "ああ古池や蛙飛び込む水の音がします",
+			want: "古池や蛙飛び込む水の音",
+		},
+	}
+	for _, tt := range tests {
+		r, err := ikku.NewReviewer(ipa.Dict())
+		if err != nil {
+			t.Error(err)
+		}
+		t.Run(tt.name, func(t *testing.T) {
+			got := r.Find(tt.text).String()
+			if tt.want != got {
+				t.Errorf("want: %v, got: %v", tt.want, got)
+			}
+		})
+	}
+}
+
 func FuzzTestJudgeAllRunes(f *testing.F) {
 	f.Add("古池や蛙飛び込む水の音", true)
 	f.Add("古池や蛙飛び込む水の音", false)
@@ -270,4 +302,43 @@ func isTargetText(text string) bool {
 		}
 	}
 	return true
+}
+
+func Example() {
+	r, err := ikku.NewReviewer(ipa.Dict())
+	if err != nil {
+		panic(err)
+	}
+	// This is Haiku.
+	fmt.Println(r.Find("古池や蛙飛び込む水の音"))
+	// This contains Haiku.
+	fmt.Println(r.Find("まさに古池や蛙飛び込む水の音ですね。"))
+	// This is NOT Haiku.
+	fmt.Println(r.Find("今日もいい天気だ。"))
+}
+
+func Example_print() {
+	r, err := ikku.NewReviewer(ipa.Dict())
+	if err != nil {
+		panic(err)
+	}
+	song := r.Find("まさに古池や蛙飛び込む水の音ですね。")
+	fmt.Println(song.String())
+	// Output: 古池や蛙飛び込む水の音
+}
+
+func ExampleReviewerOptionExactly() {
+	//nolint
+	ikku.NewReviewer(
+		ipa.Dict(),
+		ikku.ReviewerOptionExactly(true),
+	)
+}
+
+func ExampleReviewerOptionRule() {
+	//nolint
+	ikku.NewReviewer(
+		ipa.Dict(),
+		ikku.ReviewerOptionRule([]int{5, 7, 5, 7, 7}),
+	)
 }
