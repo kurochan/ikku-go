@@ -3,6 +3,11 @@
 
 Inspired by [r7kamura/ikku](https://github.com/r7kamura/ikku).
 
+## Install
+```bash
+$ go get github.com/kurochan/ikku-go
+```
+
 ## Example
 ```go
 import (
