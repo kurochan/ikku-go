@@ -3,6 +3,8 @@
 
 Inspired by [r7kamura/ikku](https://github.com/r7kamura/ikku).
 
+![logo image](ikku-go.jpg)
+
 ## Install
 ```bash
 $ go get github.com/kurochan/ikku-go
